@@ -14,6 +14,15 @@ function superPong() {
     keys[e.keyCode] = false;
   });
 
+  // module aliases
+  var Engine = Matter.Engine,
+       World = Matter.World,
+      Events = Matter.Events,
+   Composite = Matter.Composite,
+    Vertices = Matter.Vertices,
+        Body = Matter.Body,
+      Bodies = Matter.Bodies;
+
   // create an engine
   var engine = Engine.create();
   //turn off gravity
@@ -23,21 +32,21 @@ function superPong() {
 
   function addWalls() { // look at this function and the one below to figure out how to add players
     //add the walls
-  //   var wallSettings = {
-  //     size: 200,
-  //     isStatic: true,
-  //     render: {
-  //       restitution: 0,
-  //       fillStyle: 'rgba(0, 0, 0, 0.0)',
-  //       strokeStyle: '#00ffff'
-  //     }
-  //   };
-  //   World.add(engine.world, [
-  //     Bodies.rectangle(game.width * 0.5, -wallSettings.size * 0.5, game.width, wallSettings.size, wallSettings), //top
-  //     Bodies.rectangle(game.width * 0.5, game.height + wallSettings.size * 0.5, game.width, wallSettings.size, wallSettings), //bottom
-  //     Bodies.rectangle(-wallSettings.size * 0.5, game.height * 0.5, wallSettings.size, game.height + wallSettings.size * 2, wallSettings), //left
-  //     Bodies.rectangle(game.width + wallSettings.size * 0.5, game.height * 0.5, wallSettings.size, game.height + wallSettings.size * 2, wallSettings) //right
-  //   ]);
+    var wallSettings = {
+      size: 200,
+      isStatic: true,
+      render: {
+        restitution: 0,
+        fillStyle: 'rgba(0, 0, 0, 0.0)',
+        strokeStyle: '#00ffff'
+      }
+    };
+    World.add(engine.world, [
+      Bodies.rectangle(game.width * 0.5, -wallSettings.size * 0.5, game.width, wallSettings.size, wallSettings), //top
+      Bodies.rectangle(game.width * 0.5, game.height + wallSettings.size * 0.5, game.width, wallSettings.size, wallSettings), //bottom
+      Bodies.rectangle(-wallSettings.size * 0.5, game.height * 0.5, wallSettings.size, game.height + wallSettings.size * 2, wallSettings), //left
+      Bodies.rectangle(game.width + wallSettings.size * 0.5, game.height * 0.5, wallSettings.size, game.height + wallSettings.size * 2, wallSettings) //right
+    ]);
   }
 
   //add the masses
