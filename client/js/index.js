@@ -75,13 +75,10 @@ World.add(engine.world, [
 ]);
 
 // add some ramps to the world for the bodies to roll down
-World.add(engine.world, [
+/*World.add(engine.world, [
   Bodies.rectangle(100, 150, 20, 200, { isStatic: true, angle: Math.PI }),
-  Bodies.rectangle(1100, 150, 20, 200, {
-    isStatic: true,
-    angle: -Math.PI
-  }),
-]);
+  Bodies.rectangle(1100, 150, 20, 200, {isStatic: true, angle: Math.PI })
+]); */
 
 //adds some balls
 for(var i = 0; i<1;i++){
@@ -99,8 +96,13 @@ for(var i = 0; i<1;i++){
   })
 )}
 
+var playerOne = Bodies.rectangle(100, 150, 20, 200, { isStatic: false, angle: Math.PI })
 
-//add the player
+var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {isStatic: false, angle: Math.PI })
+
+World.add(engine.world, [playerOne, playerTwo]);
+
+//don't uncomment, this'll break the code... Add your player!
 /*const playerRadius = 25
 var player = Bodies.circle(800, game.height-200, playerRadius, {
   density: 0.001,
@@ -144,7 +146,7 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
   keys[e.keyCode] = false;
 });
-*/
+
 function playerGroundCheck(event, ground) { //runs on collisions events
   var pairs = event.pairs
   for (var i = 0, j = pairs.length; i != j; ++i) {
@@ -158,7 +160,7 @@ function playerGroundCheck(event, ground) { //runs on collisions events
 }
 
 
-//at the start of a colision for player
+//at the start of a collision for player
 Events.on(engine, "collisionStart", function(event) {
   playerGroundCheck(event, true)
 
@@ -206,7 +208,7 @@ Events.on(engine, "beforeTick", function(event) {
       player.torque = spin;
     }
   };
-});
+});*/
 
 // run the engine
 Engine.run(engine);
