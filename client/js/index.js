@@ -80,27 +80,27 @@ World.add(engine.world, [
   Bodies.rectangle(1100, 150, 20, 200, {isStatic: true, angle: Math.PI })
 ]); */
 
-//adds some balls
-for(var i = 0; i<1;i++){
-  World.add(engine.world, Bodies.circle(400,200,16,{
-    density: 0.0005,
-    friction: 0,//0.05,
-    frictionStatic: 0.5,
-    frictionAir: 0.001,
-    restitution: 0.5,
+// define and add playerOne, playerTwo, ball
+var playerOne = Bodies.rectangle(100, 150, 20, 200, {
+  isStatic: false, angle: Math.PI
+});
+var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
+  isStatic: false, angle: Math.PI
+});
 
-    render:{
-      strokeStyle:'darkgrey',
-      fillStyle:'grey'
-    },
-  })
-)}
+var ball      = Bodies.circle(400, 200, 16, {
+  density: 0.0005,
+  friction: 0,//0.05,
+  frictionStatic: 0.5,
+  frictionAir: 0.001,
+  restitution: 0.5,
+  render:{
+    strokeStyle:'darkgrey',
+    fillStyle:'grey'
+  }
+});
 
-var playerOne = Bodies.rectangle(100, 150, 20, 200, { isStatic: false, angle: Math.PI })
-
-var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {isStatic: false, angle: Math.PI })
-
-World.add(engine.world, [playerOne, playerTwo]);
+World.add(engine.world, [playerOne, playerTwo, ball]);
 
 //don't uncomment, this'll break the code... Add your player!
 /*const playerRadius = 25
