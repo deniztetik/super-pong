@@ -2,20 +2,18 @@
 <html >
   <head>
     <meta charset="UTF-8">
-    <title>super Pong(matter.js)</title>
+    <title>platformer v0.3 (matter.js)</title>
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+    <svg>
+      <g id="grid" stroke="#f2f2f2">
+        <line x1="0" y1="0" x2="3000" y2="0" style="stroke-dasharray:1,58,1,0;stroke-width:3000;"/>
+        <line x1="0" y1="0" x2="0" y2="3000" style="stroke-dasharray:1,58,1,0;stroke-width:3000;"/>
+      </g>
+    </svg>
     <br>
-    <div id='hud'>
-      <h1>Pong</h1>
-      <div id='pongSplash' onclick="superPong()">
-        <p>click to begin</p>
-        <br>
-        <p>move: WASD / arrows</p>
-      </div>
-    </div>
-    <script src='bower_components/jquery/dist/jquery.min.js'></script>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Controls: arrow keys
     <script src='bower_components/Matter/build/matter.min.js'></script>
     <script src="js/index.js"></script>
   </body>
