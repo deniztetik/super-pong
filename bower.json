@@ -1,0 +1,22 @@
+{
+  "name": "super-pong",
+  "authors": [
+    "Deniz Tetik <deniztetik31@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Matter": "matter-js#^0.10.0",
+    "jquery": "^3.0.0"
+  }
+}
