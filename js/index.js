@@ -68,4 +68,8 @@ function superPong() {
   //   });
   //   World.add(engine.world, mass[0]);
   }
+
+  function controls() {
+    // type stuff here
+  }
 }
