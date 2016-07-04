@@ -117,9 +117,9 @@ document.body.addEventListener("keyup", function(e) {
 Events.trigger(engine, "triggerMovement", function(event) {
     game.cycle++;
     if (keys[38].keydown) {
-      playerOne.x += 100;
+      playerOne.x += 10;
     } else if (keys[38].keyup) {
-      playerOne.x -= 100;
+      playerOne.x -= 10;
     }
   });
 
