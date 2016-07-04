@@ -14,12 +14,12 @@ make portals fireable with ray casting  (consider using point checks, not raycas
 
 */
 
-function rotateVector(vector, angle) {
+/*function rotateVector(vector, angle) {
   return {
     x: vector.x * Math.cos(angle) - vector.y * Math.sin(angle),
     y: vector.x * Math.sin(angle) + vector.y * Math.cos(angle)
   }
-}
+} */
 
 
 //game objects values
@@ -39,6 +39,8 @@ var Engine = Matter.Engine,
 
 // create an engine
 var engine = Engine.create();
+
+engine.world.gravity.y = 0;
 
 var render = Render.create({
   element: document.body,
@@ -74,33 +76,61 @@ World.add(engine.world, [
   })
 ]);
 
-// add some ramps to the world for the bodies to roll down
-/*World.add(engine.world, [
-  Bodies.rectangle(100, 150, 20, 200, { isStatic: true, angle: Math.PI }),
-  Bodies.rectangle(1100, 150, 20, 200, {isStatic: true, angle: Math.PI })
-]); */
-
 // define and add playerOne, playerTwo, ball
 var playerOne = Bodies.rectangle(100, 150, 20, 200, {
-  isStatic: false, angle: Math.PI
+  isStatic: false, angle: Math.PI, alive: true, x:0, y:0
 });
 var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
-  isStatic: false, angle: Math.PI
+  isStatic: false, angle: Math.PI, alive: true
 });
 
-var ball      = Bodies.circle(400, 200, 16, {
-  density: 0.0005,
-  friction: 0,//0.05,
-  frictionStatic: 0.5,
-  frictionAir: 0.001,
-  restitution: 0.5,
+var ball = Bodies.circle(400, 200, 16, {
+  density: 0.001,
+  friction: 0,
+  frictionStatic: 0,
+  frictionAir: 0.005,
+  restitution: 0.3,
+  ground: false,
+  jumpCD: 0,
+
+  collisionFilter:{
+    category: 1,
+    group: 1,
+    mask: 1
+  },
   render:{
-    strokeStyle:'darkgrey',
-    fillStyle:'grey'
-  }
+    strokeStyle:'black',
+    fillStyle:'black'
+  },
 });
+ball.collisionFilter.group = -1
+
+//Keyboard input
+var keys = [];
+document.body.addEventListener("keydown", function(e) {
+  keys[e.keyCode] = true;
+});
+document.body.addEventListener("keyup", function(e) {
+  keys[e.keyCode] = false;
+});
+
+Events.trigger(engine, "triggerMovement", function(event) {
+    game.cycle++;
+    if (keys[38].keydown) {
+      playerOne.x += 100;
+    } else if (keys[38].keyup) {
+      playerOne.x -= 100;
+    }
+  });
 
 World.add(engine.world, [playerOne, playerTwo, ball]);
+
+
+
+
+
+
+
 
 //don't uncomment, this'll break the code... Add your player!
 /*const playerRadius = 25
