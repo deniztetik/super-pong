@@ -84,7 +84,7 @@ var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
   isStatic: false, angle: Math.PI, alive: true
 });
 
-var ball = Bodies.circle(400, 200, 16, {
+var ball = Bodies.circle(600, 200, 16, {
   density: 0.001,
   friction: 0,
   frictionStatic: 0,
