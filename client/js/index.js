@@ -78,7 +78,7 @@ World.add(engine.world, [
 
 // define and add playerOne, playerTwo, ball
 var playerOne = Bodies.rectangle(100, 150, 20, 200, {
-  isStatic: true, angle: Math.PI, alive: true, x:0, y:0
+  isStatic: false, angle: Math.PI, alive: false, x:0, y:0
 });
 var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
   isStatic: true, angle: Math.PI, alive: true
@@ -102,10 +102,12 @@ var ball = Bodies.circle(400, 200, 16, {
 });
 ball.collisionFilter.group = -1
 
-var velocity = Matter.Body.setVelocity(ball, {
+Matter.Body.setVelocity(ball, {
     x: 10,
     y: 0
   });
+
+
 
 World.add(engine.world, [playerOne, playerTwo, ball]);
 
@@ -117,6 +119,35 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
   keys[e.keyCode] = false;
 });
+
+Events.on(engine, "afterTick", function(event) {
+  if (keys[38].keyup === true) {
+  playerOne.force = {
+      x: 0,
+      y: 1
+    }
+  }
+});
+
+Events.on(engine, "beforeTick", function(event) {
+  game.cycle++;
+  //spin left and right
+
+  const limit = 0.3;
+  if (keys[38] > -limit) {
+    Matter.Body.setVelocity(playerOne, {
+        x: 0,
+        y: -1
+      })
+  } else if (keys[40] > -limit) {
+    Matter.Body.setVelocity(playerOne, {
+        x: 0,
+        y: 1
+      })
+  }
+});
+
+
 
 //don't uncomment, this'll break the code... Add your player!
 /*const playerRadius = 25
