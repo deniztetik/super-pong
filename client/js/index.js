@@ -128,7 +128,7 @@ Events.on(engine, "afterTick", function(event) {
     }
   }
 });
-
+// Pressing down arrow first will make the paddle go down, pressing up afterwards will make it go up. However pressing up first and then attempting to go down doesn't work.
 Events.on(engine, "beforeTick", function(event) {
   game.cycle++;
   //spin left and right
