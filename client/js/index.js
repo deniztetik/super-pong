@@ -137,12 +137,12 @@ Events.on(engine, "beforeTick", function(event) {
   if (keys[38] > -limit) {
     Matter.Body.setVelocity(playerOne, {
         x: 0,
-        y: -1
+        y: -5
       })
   } else if (keys[40] > -limit) {
     Matter.Body.setVelocity(playerOne, {
         x: 0,
-        y: 1
+        y: 5
       })
   }
 });
