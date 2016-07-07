@@ -78,20 +78,17 @@ World.add(engine.world, [
 
 // define and add playerOne, playerTwo, ball
 var playerOne = Bodies.rectangle(100, 150, 20, 200, {
-  isStatic: false, angle: Math.PI, alive: true, x:0, y:0
+  isStatic: true, angle: Math.PI, alive: true, x:0, y:0
 });
 var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
-  isStatic: false, angle: Math.PI, alive: true
+  isStatic: true, angle: Math.PI, alive: true
 });
 
 var ball = Bodies.circle(400, 200, 16, {
-  density: 0.001,
-  friction: 0,
+  density: 0.0001,
   frictionStatic: 0,
-  frictionAir: 0.005,
-  restitution: 0.3,
-  ground: false,
-  jumpCD: 0,
+  frictionAir: 0,
+  restitution: 1,
 
   collisionFilter:{
     category: 1,
@@ -105,6 +102,13 @@ var ball = Bodies.circle(400, 200, 16, {
 });
 ball.collisionFilter.group = -1
 
+var velocity = Matter.Body.setVelocity(ball, {
+    x: 10,
+    y: 0
+  });
+
+World.add(engine.world, [playerOne, playerTwo, ball]);
+
 //Keyboard input
 var keys = [];
 document.body.addEventListener("keydown", function(e) {
@@ -113,24 +117,6 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
   keys[e.keyCode] = false;
 });
-
-Events.trigger(engine, "triggerMovement", function(event) {
-    game.cycle++;
-    if (keys[38].keydown) {
-      playerOne.x += 10;
-    } else if (keys[38].keyup) {
-      playerOne.x -= 10;
-    }
-  });
-
-World.add(engine.world, [playerOne, playerTwo, ball]);
-
-
-
-
-
-
-
 
 //don't uncomment, this'll break the code... Add your player!
 /*const playerRadius = 25
