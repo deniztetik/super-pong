@@ -76,12 +76,15 @@ World.add(engine.world, [
   })
 ]);
 
+const playerOneXPos = 100;
+const playerTwoXPos = 1100;
+
 // define and add playerOne, playerTwo, ball
-var playerOne = Bodies.rectangle(100, 150, 20, 200, {
-  isStatic: false, angle: Math.PI, alive: false, x:0, y:0
+var playerOne = Bodies.rectangle(playerOneXPos, 150, 20, 200, {
+  inertia: Infinity, isStatic: false, angle: Math.PI, alive: true, x:0, y:0
 });
-var playerTwo = Bodies.rectangle(1100, 150, 20, 200, {
-  isStatic: true, angle: Math.PI, alive: true
+var playerTwo = Bodies.rectangle(playerTwoXPos, 150, 20, 200, {
+  inertia: Infinity, isStatic: false, angle: Math.PI, alive: true
 });
 
 var ball = Bodies.circle(400, 200, 16, {
@@ -105,7 +108,15 @@ ball.collisionFilter.group = -1
 Matter.Body.setVelocity(ball, {
     x: 10,
     y: 0
-  });
+});
+
+// add setInterval fn to gradually increase velocity
+// setInterval(function() {
+//   Matter.Body.setVelocity(ball, {
+//     x: ball.velocity.x + 0.05,
+//     y: ball.velocity.y + 0.01
+//   })
+// }, 1000);
 
 
 
@@ -121,31 +132,62 @@ document.body.addEventListener("keyup", function(e) {
 });
 
 Events.on(engine, "afterTick", function(event) {
-  if (keys[38].keyup === true) {
-  playerOne.force = {
-      x: 0,
-      y: 1
-    }
-  }
+  // if (keys[38].keyup === true) {
+  // playerOne.force = {
+  //     x: 0,
+  //     y: 1
+  //   }
+  // }
 });
 // Pressing down arrow first will make the paddle go down, pressing up afterwards will make it go up. However pressing up first and then attempting to go down doesn't work.
 Events.on(engine, "beforeTick", function(event) {
-  game.cycle++;
-  //spin left and right
-
-  const limit = 0.3;
-  if (keys[38] > -limit) {
-    Matter.Body.setVelocity(playerOne, {
-        x: 0,
-        y: -5
-      })
-  } else if (keys[40] > -limit) {
-    Matter.Body.setVelocity(playerOne, {
-        x: 0,
-        y: 5
-      })
-  }
+  // game.cycle++;
+  // //spin left and right
+  //
+  // const limit = 0.3;
+  // if (keys[38] > -limit) {
+  //   Matter.Body.setVelocity(playerOne, {
+  //       x: 0,
+  //       y: -5
+  //     })
+  // } else if (keys[40] > -limit) {
+  //   Matter.Body.setVelocity(playerOne, {
+  //       x: 0,
+  //       y: 5
+  //     })
+  // }
 });
+
+$(document).keydown(function(e) {
+	var key = String.fromCharCode(e.which);
+  // console.log(key);
+  if (key == 'W') {
+    playerOne.force = {
+      x: 0,
+      y: -0.1
+    }
+  } else if (key == 'S') {
+    playerOne.force = {
+      x: 0,
+      y: 0.1
+    }
+  } else if (key == '&') {
+    // console.log("up!!");
+    playerTwo.force = {
+      x: 0,
+      y: -0.1
+    }
+  } else if(key == '(') {
+    // console.log("down!!");
+    playerTwo.force = {
+      x: 0,
+      y: 0.1
+    }
+  }
+	// 	addLetter(key);
+	// 	hilight(letters[key].name);
+	// }
+})
 
 
 
@@ -207,55 +249,58 @@ function playerGroundCheck(event, ground) { //runs on collisions events
 }
 
 
-//at the start of a collision for player
+//at the start of a collision for player */
 Events.on(engine, "collisionStart", function(event) {
-  playerGroundCheck(event, true)
+  // playerGroundCheck(event, true)
+  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
+  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
 
 });
 //ongoing checks for collisions for player
 Events.on(engine, "collisionActive", function(event) {
-  playerGroundCheck(event, true)
+  // playerGroundCheck(event, true)
 });
 //at the end of a colision for player set ground to false
 Events.on(engine, 'collisionEnd', function(event) {
-  playerGroundCheck(event, false);
-
+  // playerGroundCheck(event, false);
+  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
+  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
 })
 
-Events.on(engine, "afterTick", function(event) {
-  //set sensor velocity to zero so it collides properly
-  Matter.Body.setVelocity(playerSensor, {
-      x: 0,
-      y: 0
-    })
-    //move sensor to below the player
-  Body.setPosition(playerSensor, {
-    x: player.position.x,
-    y: player.position.y + playerRadius
-  });
-});
-
-Events.on(engine, "beforeTick", function(event) {
-  game.cycle++;
-  //jump
-  if (keys[38] && player.ground && player.jumpCD < game.cycle) {
-    player.jumpCD = game.cycle + 10; //adds a cooldown to jump
-    player.force = {
-      x: 0,
-      y: -0.07
-    };
-  }
-  //spin left and right
-  const spin = 0.05;
-  const limit = 0.3;
-  if (keys[37] && player.angularVelocity > -limit) {
-    player.torque = -spin;
-  } else {
-    if (keys[39] && player.angularVelocity < limit) {
-      player.torque = spin;
-    }
-  };
-});*/
+// Events.on(engine, "afterTick", function(event) {
+//   //set sensor velocity to zero so it collides properly
+//   Matter.Body.setVelocity(playerSensor, {
+//       x: 0,
+//       y: 0
+//     })
+//     //move sensor to below the player
+//   Body.setPosition(playerSensor, {
+//     x: player.position.x,
+//     y: player.position.y + playerRadius
+//   });
+// });
+//
+// Events.on(engine, "beforeTick", function(event) {
+//   game.cycle++;
+//   //jump
+//   if (keys[38] && player.ground && player.jumpCD < game.cycle) {
+//     player.jumpCD = game.cycle + 10; //adds a cooldown to jump
+//     player.force = {
+//       x: 0,
+//       y: -0.07
+//     };
+//   }
+//   //spin left and right
+//   const spin = 0.05;
+//   const limit = 0.3;
+//   if (keys[37] && player.angularVelocity > -limit) {
+//     player.torque = -spin;
+//   } else {
+//     if (keys[39] && player.angularVelocity < limit) {
+//       player.torque = spin;
+//     }
+//   };
+// });*/
 
 // run the engine
 Engine.run(engine);
