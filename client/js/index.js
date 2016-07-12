@@ -111,6 +111,7 @@ Matter.Body.setVelocity(ball, {
 });
 
 // add setInterval fn to gradually increase velocity
+
 // setInterval(function() {
 //   Matter.Body.setVelocity(ball, {
 //     x: ball.velocity.x + 0.05,
@@ -122,45 +123,8 @@ Matter.Body.setVelocity(ball, {
 
 World.add(engine.world, [playerOne, playerTwo, ball]);
 
-//Keyboard input
-var keys = [];
-document.body.addEventListener("keydown", function(e) {
-  keys[e.keyCode] = true;
-});
-document.body.addEventListener("keyup", function(e) {
-  keys[e.keyCode] = false;
-});
-
-Events.on(engine, "afterTick", function(event) {
-  // if (keys[38].keyup === true) {
-  // playerOne.force = {
-  //     x: 0,
-  //     y: 1
-  //   }
-  // }
-});
-// Pressing down arrow first will make the paddle go down, pressing up afterwards will make it go up. However pressing up first and then attempting to go down doesn't work.
-Events.on(engine, "beforeTick", function(event) {
-  // game.cycle++;
-  // //spin left and right
-  //
-  // const limit = 0.3;
-  // if (keys[38] > -limit) {
-  //   Matter.Body.setVelocity(playerOne, {
-  //       x: 0,
-  //       y: -5
-  //     })
-  // } else if (keys[40] > -limit) {
-  //   Matter.Body.setVelocity(playerOne, {
-  //       x: 0,
-  //       y: 5
-  //     })
-  // }
-});
-
 $(document).keydown(function(e) {
 	var key = String.fromCharCode(e.which);
-  // console.log(key);
   if (key == 'W') {
     playerOne.force = {
       x: 0,
@@ -172,23 +136,75 @@ $(document).keydown(function(e) {
       y: 0.1
     }
   } else if (key == '&') {
-    // console.log("up!!");
     playerTwo.force = {
       x: 0,
       y: -0.1
     }
   } else if(key == '(') {
-    // console.log("down!!");
     playerTwo.force = {
       x: 0,
       y: 0.1
     }
   }
-	// 	addLetter(key);
-	// 	hilight(letters[key].name);
-	// }
 })
 
+// "hacky" way to make make sure players' x-coords don't permanently change during collisions
+// needs to be fixed
+Events.on(engine, "collisionStart", function(event) {
+  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
+  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
+
+});
+// Events.on(engine, "collisionActive", function(event) {
+// });
+Events.on(engine, 'collisionEnd', function(event) {
+  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
+  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
+})
+
+// run the engine
+Engine.run(engine);
+
+// run the renderer
+Render.run(render);
+
+//// OLD/BOILERPLATE CODE ////
+
+// //Keyboard input
+// var keys = [];
+// document.body.addEventListener("keydown", function(e) {
+//   keys[e.keyCode] = true;
+// });
+// document.body.addEventListener("keyup", function(e) {
+//   keys[e.keyCode] = false;
+// });
+
+// Events.on(engine, "afterTick", function(event) {
+//   // if (keys[38].keyup === true) {
+//   // playerOne.force = {
+//   //     x: 0,
+//   //     y: 1
+//   //   }
+//   // }
+// });
+// // Pressing down arrow first will make the paddle go down, pressing up afterwards will make it go up. However pressing up first and then attempting to go down doesn't work.
+// Events.on(engine, "beforeTick", function(event) {
+//   // game.cycle++;
+//   // //spin left and right
+//   //
+//   // const limit = 0.3;
+//   // if (keys[38] > -limit) {
+//   //   Matter.Body.setVelocity(playerOne, {
+//   //       x: 0,
+//   //       y: -5
+//   //     })
+//   // } else if (keys[40] > -limit) {
+//   //   Matter.Body.setVelocity(playerOne, {
+//   //       x: 0,
+//   //       y: 5
+//   //     })
+//   // }
+// });
 
 
 //don't uncomment, this'll break the code... Add your player!
@@ -246,26 +262,7 @@ function playerGroundCheck(event, ground) { //runs on collisions events
       player.ground = ground;
     }
   }
-}
-
-
-//at the start of a collision for player */
-Events.on(engine, "collisionStart", function(event) {
-  // playerGroundCheck(event, true)
-  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
-  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
-
-});
-//ongoing checks for collisions for player
-Events.on(engine, "collisionActive", function(event) {
-  // playerGroundCheck(event, true)
-});
-//at the end of a colision for player set ground to false
-Events.on(engine, 'collisionEnd', function(event) {
-  // playerGroundCheck(event, false);
-  Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
-  Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
-})
+}*/
 
 // Events.on(engine, "afterTick", function(event) {
 //   //set sensor velocity to zero so it collides properly
@@ -301,9 +298,3 @@ Events.on(engine, 'collisionEnd', function(event) {
 //     }
 //   };
 // });*/
-
-// run the engine
-Engine.run(engine);
-
-// run the renderer
-Render.run(render);
