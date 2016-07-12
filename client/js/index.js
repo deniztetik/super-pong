@@ -149,7 +149,7 @@ $(document).keydown(function(e) {
 })
 
 // "hacky" way to make make sure players' x-coords don't permanently change during collisions
-// needs to be fixed
+// needs to be fixed, maybe by making an invisible wall?
 Events.on(engine, "collisionStart", function(event) {
   Matter.Body.setPosition(playerOne, { x: playerOneXPos, y: playerOne.position.y } );
   Matter.Body.setPosition(playerTwo, { x: playerTwoXPos, y: playerTwo.position.y } );
@@ -167,6 +167,13 @@ Engine.run(engine);
 
 // run the renderer
 Render.run(render);
+
+
+
+
+
+
+
 
 //// OLD/BOILERPLATE CODE ////
 
